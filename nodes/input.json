@@ -1,0 +1,32 @@
+{
+    "R11": {
+        "backup_config_file": "config.cfg",
+        "node_cli_proto": "ssh",
+        "node_ip_address": "10.159.174.141",
+        "node_backup_dir_name": "test",
+        "node_config_file_name": "",
+        "node_username": "admin",
+        "node_password": "admin",
+        "node_backup_config_file_name": "blabla22.cfg",
+        "node_dev_fs": "cf3:/",
+        "backup_result": ""
+    },
+    "R12": {
+        "backup_config_file": "config.cfg",
+        "node_cli_proto": "ssh",
+        "node_ip_address": "10.159.174.142",
+        "node_backup_dir_name": "",
+        "node_config_file_name": "test.cfg",
+        "node_username": "admin",
+        "node_password": "admin",
+        "node_backup_config_file_name": "",
+        "node_dev_fs": "cf1:/",
+        "backup_result": ""
+    },
+    "rtr2": {
+        "backup_config_file": "config.cfg",
+        "node_ip_address": "10.1.1.2",
+        "node_username": "admin",
+        "node_password": "admin"
+    }
+}
