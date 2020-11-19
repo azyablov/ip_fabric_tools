@@ -1,32 +1,27 @@
 {
-    "R11": {
-        "backup_config_file": "config.cfg",
-        "node_cli_proto": "ssh",
-        "node_ip_address": "10.159.174.141",
-        "node_backup_dir_name": "test",
-        "node_config_file_name": "",
-        "node_username": "admin",
-        "node_password": "admin",
-        "node_backup_config_file_name": "blabla22.cfg",
-        "node_dev_fs": "cf3:/",
-        "backup_result": ""
+    "spine01": {
+        "ip_address": "100.109.1.32",
+        "username": "admin",
+        "password": "admin",
+        "dev_fs": "cf1:/",
+        "backup_dir_name": "backup",
+        "backup_config_file_name": "spine01.cfg",
+        "expected_version": "5.4.1-287 ",
+        "proxy": "True"
     },
-    "R12": {
-        "backup_config_file": "config.cfg",
-        "node_cli_proto": "ssh",
-        "node_ip_address": "10.159.174.142",
-        "node_backup_dir_name": "",
-        "node_config_file_name": "test.cfg",
-        "node_username": "admin",
-        "node_password": "admin",
-        "node_backup_config_file_name": "",
-        "node_dev_fs": "cf1:/",
-        "backup_result": ""
+    "spine02": {
+        "ip_address": "100.109.1.33",
+        "username": "admin",
+        "password": "admin",
+        "dev_fs": "cf1:/",
+        "backup_dir_name": "backup",
+        "backup_config_file_name": "spine02.cfg",
+        "expected_version": "5.4.1-288 ",
+        "proxy": "True"
     },
-    "rtr2": {
-        "backup_config_file": "config.cfg",
-        "node_ip_address": "10.1.1.2",
-        "node_username": "admin",
-        "node_password": "admin"
+    "fabric_proxy": {
+        "ip_address": "100.109.1.32",
+        "username": "admin",
+        "password": "admin"
     }
 }

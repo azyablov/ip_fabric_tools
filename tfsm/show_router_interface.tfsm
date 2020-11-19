@@ -1,21 +1,17 @@
-Value VLAN (\d+)
-Value Mac_Address (\S+)
-Value Type (STATIC|DYNAMIC)
-Value Port (\S+)
+Value Name ([\d\w\-_]+)
+Value AdmStatus (Up|Down)
+Value OperStatusIPv4 (Up|Down)
+Value Port (system|\d+\/\d+\/\d+\:\d+)
+Value IPv4Address ([\d\.]+)
+Value PrefixLen (\d+)
 
 
 Start
-  ^\s+${VLAN}\s+${Mac_Address}\s+${Type}\s+${Port} -> Record
+  ^${Name}\s+${AdmStatus}\s+${OperStatusIPv4}\/(Up|Down)\s+Network ${Port}
+  ^\s+${IPv4Address}\/${PrefixLen}\s+.* -> Record
 
 
-
- # sw4#show mac address-table vlan 2
- #           Mac Address Table
- # -------------------------------------------
- #
- # Vlan    Mac Address       Type        Ports
- # ----    -----------       --------    -----
- #  All    0100.0ccc.cccc    STATIC      CPU
- #   2    0001.6c17.3172    STATIC      Fa2/0/18
- #   2    000b.3c24.ba14    DYNAMIC     Gi3/0/1
- #   2    000c.2910.b2a4    DYNAMIC     Po14
+#system                           Up          Up/Down     Network system
+#   100.109.100.6/32                                              n/a
+#to-dcgw01                        Up          Up/Down     Network 1/1/1:1
+#   100.109.10.21/31                                              n/a

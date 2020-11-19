@@ -19,11 +19,19 @@
         }
     </style>
 </head>
-<body>
+<p>
 
 <h1> {{node}} availability check </h1>
 
 {{ ping_table }}
+
+<h1> {{node}} expected and current version on device </h1>
+
+{{sw_version_control}}
+
+<h1> {{node}} NTP status </h1>
+
+{{ntp_status}}
 
 <h1> Interface status report </h1>
 

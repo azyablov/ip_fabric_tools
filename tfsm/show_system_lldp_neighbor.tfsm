@@ -1,17 +1,24 @@
-Value Name ([\d\w\-_]+)
-Value AdmStatus (Up|Down)
-Value OperStatusIPv4 (Up|Down)
-Value Port (system|\d+\/\d+\/\d+\:\d+)
-Value IPv4Address ([\d\.]+)
-Value PrefixLen (\d+)
+Value Port (\d+\/\d+\/\d+)
+Value ChassisID (\w{2}:+\w{2}:+\w{2}:+\w{2}:+\w{2}:+\w{2})
+Value SystemName (\w+)
 
 
 Start
-  ^${Name}\s+${AdmStatus}\s+${OperStatusIPv4}\/(Up|Down)\s+Network ${Port}
-  ^\s+${IPv4Address}\/${PrefixLen}\s+.* -> Record
+  ^${Port}\s+NB\s+${ChassisID}\s+\d+\s+\d+\s+${SystemName} -> Record
 
 
-#system                           Up          Up/Down     Network system
-#   100.109.100.6/32                                              n/a
-#to-dcgw01                        Up          Up/Down     Network 1/1/1:1
-#   100.109.10.21/31                                              n/a
+# *A:spine01# show system lldp neighbor
+# Link Layer Discovery Protocol (LLDP) System Information
+#
+# ==============================================================================
+# NB = nearest-bridge   NTPMR = nearest-non-tpmr   NC = nearest-customer
+# ==============================================================================
+# Port      Scope  Chassis ID           Index    Port ID     System Name
+# ------------------------------------------------------------------------------
+# 1/1/1     NB     84:26:2b:ba:b8:9d    1        35684352    dcgw01
+# 1/1/21    NB     50:e0:ef:19:28:11    2        35684352    leaf02
+# 1/1/17    NB     50:e0:ef:1b:16:11    3        35684352    leaf01
+# 1/1/25    NB     50:e0:ef:1b:8e:11    4        35684352    leaf03
+# 1/1/29    NB     50:e0:ef:1b:ac:11    5        35684352    leaf04
+# ==============================================================================
+# Number of neighbors : 5

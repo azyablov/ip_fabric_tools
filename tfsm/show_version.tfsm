@@ -1,17 +1,12 @@
-Value Name ([\d\w\-_]+)
-Value AdmStatus (Up|Down)
-Value OperStatusIPv4 (Up|Down)
-Value Port (system|\d+\/\d+\/\d+\:\d+)
-Value IPv4Address ([\d\.]+)
-Value PrefixLen (\d+)
+Value Version ([\d\.\-]+)
 
 
 Start
-  ^${Name}\s+${AdmStatus}\s+${OperStatusIPv4}\/(Up|Down)\s+Network ${Port}
-  ^\s+${IPv4Address}\/${PrefixLen}\s+.* -> Record
+  ^TiMOS-DC-B-${Version}\s+.* -> Record
 
 
-#system                           Up          Up/Down     Network system
-#   100.109.100.6/32                                              n/a
-#to-dcgw01                        Up          Up/Down     Network 1/1/1:1
-#   100.109.10.21/31                                              n/a
+# A:spine01# show version
+# TiMOS-DC-B-5.4.1-287 both/x86 NUAGE 210 Copyright (c) 2000-2019 Nokia.
+# All rights reserved. All use subject to applicable license agreements.
+# Built on Wed Nov 27 22:07:13 PST 2019 [1c5ae8] by builder in /rel5.4-DC/release/panos/main
+# A:spine01#
