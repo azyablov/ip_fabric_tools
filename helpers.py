@@ -7,11 +7,28 @@ import jinja2
 import logging
 from pprint import pprint
 from typing import Union, Dict
-
+import functools
+import time
 
 # ==== Resource variables and matching patterns ====
 ALERT = "Alert!"
 NO_ALERT = "------"
+
+
+# Decorators
+def runtimeit_logger(logger: logging.Logger):
+    def runtimeit(run_func):
+        # Function to measure runtime
+        @functools.wraps(run_func)
+        def timeit(*args, **kwargs):
+            start = time.time()
+            # Run target function
+            run_func_result = run_func(*args, **kwargs)
+            end = time.time()
+            logger.info(f"Runtime of {run_func.__name__}: {end - start} seconds")
+            return run_func_result
+        return timeit
+    return runtimeit
 
 
 def load_json_data(file_name: str) -> Dict:

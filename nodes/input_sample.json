@@ -1,0 +1,49 @@
+{
+    "spine01": {
+        "ip_address": "192.0.2.1",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "spine02": {
+        "ip_address": "192.0.2.1",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "leaf01": {
+        "ip_address": "192.0.2.3",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "leaf02": {
+        "ip_address": "192.0.2.4",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "leaf03": {
+        "ip_address": "192.0.2.5",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "leaf04": {
+        "ip_address": "192.0.2.6",
+        "username": "admin",
+        "password": "changeme",
+        "expected_version": "5.4.1-287",
+        "proxy": "True"
+    },
+    "fabric_proxy": {
+        "ip_address": "192.0.2.7",
+        "username": "admin",
+        "password": "changeme"
+    }
+}

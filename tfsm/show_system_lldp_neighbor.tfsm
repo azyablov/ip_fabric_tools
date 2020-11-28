@@ -1,6 +1,6 @@
 Value Port (\d+\/\d+\/\d+)
 Value ChassisID (\w{2}:+\w{2}:+\w{2}:+\w{2}:+\w{2}:+\w{2})
-Value SystemName (\w+)
+Value SystemName ([\w\-\d]+)
 
 
 Start

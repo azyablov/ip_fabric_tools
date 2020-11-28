@@ -1,4 +1,6 @@
-import re
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import os
 import ipaddress
 import paramiko
@@ -11,9 +13,10 @@ from helpers import apply_template
 from pprint import pprint as pp
 import ipdb
 import re
-from helpers import color_up_down, ALERT, NO_ALERT
+from helpers import color_up_down, runtimeit_logger, ALERT, NO_ALERT
 import logging
 from abc import ABCMeta, abstractmethod
+import subprocess
 
 # ==== Resource variables and matching patterns ====
 IP_ADDR_SEARCH_PATTERN = r'[^0-9]*([0-9]{1,3})\.([0-9]+)\.([0-9]+)\.([0-9]{1,3})[^0-9]*'  # TODO: revise pattern
@@ -27,6 +30,7 @@ SHOW_SYS_NTP_SRV = r'show system ntp servers'
 mod_log = logging.getLogger("l3topo.sroslib")
 
 
+# Module errors
 class FQDNResolutionError(ValueError):
     def __init__(self, host):
         msg = f"Can't resolve hostname {host}"
@@ -164,6 +168,7 @@ class SROSInf:
         return False
 
     @property
+    @runtimeit_logger(mod_log)
     def _ppingable(self) -> bool:
         ping_count = 2
         output = sros_show_ssh_commander(**self._proxy,
@@ -191,7 +196,7 @@ class SROSNode:
     """
 
     def __init__(self, name: str, ip_address: ipaddress.IPv4Address, username: str, *args, **kwargs):
-        self._name = None
+        self._name = name
         self._ip_address = ip_address
         self._username = username
         self._hostname = kwargs.get('hostname')
@@ -203,6 +208,11 @@ class SROSNode:
         self.l3_infs = []
         # TODO: add public key auth cred
 
+    @property
+    def name(self):
+        return self._name
+
+    @runtimeit_logger(mod_log)
     def show_command_parse(self, show_command: str) -> Union[List[str], None]:
         # Execute CLI command against of device.
         output = sros_show_ssh_commander(self.ip_address, self.username, self.password, [show_command])
@@ -210,7 +220,7 @@ class SROSNode:
         inf_res = output[0][1]
         # Apply textfsm template.
         parsed_output = apply_template(f"tfsm/{show_command.replace(' ', '_')}.tfsm", inf_res, False)
-        mod_log.debug("Parsed output  for '%s' command %s:", show_command, str(parsed_output))
+        mod_log.debug("Parsed output  for '%s' command: %s", show_command, str(parsed_output))
         if not parsed_output:
             mod_log.error("Failed to recognise software version.")
             raise TFSMParsingError
@@ -263,7 +273,7 @@ class SROSNode:
 
     @property
     def json(self):
-        return { # TODO: to be reworked to include needed data.
+        return {  # TODO: to be reworked to include needed data.
             "ip_address": str(self._ip_address),
             "hostname": self._hostname,
             "username": self.username,
@@ -273,11 +283,18 @@ class SROSNode:
         }
 
     @property
+    @runtimeit_logger(mod_log)
     def ping_ones(self) -> bool:
         mod_log.debug("Executing ping toward %s", str(self.ip_address))
-        if os.system(f"ping -c 1 {self.ip_address} > /dev/null 2>&1") == 0:
+        count = 1
+        try:
+            subprocess.run(capture_output=False, timeout=2, check=True,
+                           stderr=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+                           args=["ping", "-c", str(count), str(self.ip_address)])
             return True
-        return False
+        except (subprocess.CalledProcessError, subprocess.TimeoutExpired):
+            mod_log.debug("Executing ping toward %s", str(self.ip_address))
+            return False
 
     @property
     def get_l3_infs_df_state(self) -> Union[pd.DataFrame, None]:
@@ -292,11 +309,6 @@ class SROSNode:
     def fetch_infs(self):
         # Execute CLI command against of device.
         inf_data_list = self.show_command_parse(SHOW_RTR_INF)
-        # output = sros_show_ssh_commander(self.ip_address, self.username, self.password, [SHOW_RTR_INF])
-        # inf_res = output[0][1]
-        # # Apply textfsm template.
-        # inf_data_list = apply_template(f"tfsm/{SHOW_RTR_INF.replace(' ', '_')}.tfsm", inf_res, False)
-        # Refreshing l3 inf list before populating with updated ones.
         if self.l3_infs:
             self.l3_infs = []
         for inf_data in inf_data_list:
@@ -361,7 +373,7 @@ def sros_show_ssh_commander(ip_address: ipaddress.IPv4Address, username: str,
         ssh_client.connect(ip_address.__str__(), username=username, password=password, timeout=30.0)
     except socket.timeout as val_err:
         mod_log.warning('Connection timeout for IP@: %s '
-                      '%s', ip_address.__str__(), val_err.__str__())
+                        '%s', ip_address.__str__(), val_err.__str__())
         return None
     ssh_client_transport = ssh_client.get_transport()
     channel_sh = ssh_client_transport.open_channel(kind='session')
@@ -374,7 +386,7 @@ def sros_show_ssh_commander(ip_address: ipaddress.IPv4Address, username: str,
     # Catching greetings
     if channel_sh.recv_ready():
         channel_sh.send('environment no more\n')
-        time.sleep(2) # TODO: add speed_factor here
+        time.sleep(2)  # TODO: add speed_factor here
         channel_sh.in_buffer.empty()
     else:
         ssh_client.close()
@@ -551,3 +563,6 @@ def sros_ssh_commander_prx(ip_address: ipaddress.IPv4Address, ip_address_prx: ip
     channel_sh.send('logout\n')
     ssh_client.close()
     return 0, result
+
+
+
