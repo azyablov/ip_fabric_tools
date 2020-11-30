@@ -10,21 +10,20 @@ import pandas as pd
 import numpy as np
 from typing import List, Union, Tuple
 from helpers import apply_template
-from pprint import pprint as pp
-import ipdb
 import re
 from helpers import color_up_down, runtimeit_logger, ALERT, NO_ALERT
 import logging
-from abc import ABCMeta, abstractmethod
 import subprocess
 
 # ==== Resource variables and matching patterns ====
-IP_ADDR_SEARCH_PATTERN = r'[^0-9]*([0-9]{1,3})\.([0-9]+)\.([0-9]+)\.([0-9]{1,3})[^0-9]*'  # TODO: revise pattern
+IP_ADDR_SEARCH_PATTERN = r'[^0-9]*([0-9]{1,3})\.([0-9]+)\.([0-9]+)\.([0-9]{1,3})[^0-9]*'
 
 SHOW_RTR_INF = r'show router interface'
 SHOW_VER = r'show version'
 SHOW_SYS_LLDP = r'show system lldp neighbor'
 SHOW_SYS_NTP_SRV = r'show system ntp servers'
+# Default application path for templates
+TFSM_PATH = "../tfsm/"
 
 # Module logger
 mod_log = logging.getLogger("l3topo.sroslib")
@@ -219,7 +218,8 @@ class SROSNode:
         mod_log.debug("Raw data from SSH session for '%s' command %s:", show_command, str(output[0][1]))
         inf_res = output[0][1]
         # Apply textfsm template.
-        parsed_output = apply_template(f"tfsm/{show_command.replace(' ', '_')}.tfsm", inf_res, False)
+        # TODO: extract TFSM_PATH from ENV variables or use default one
+        parsed_output = apply_template(f"{TFSM_PATH}{show_command.replace(' ', '_')}.tfsm", inf_res, False)
         mod_log.debug("Parsed output  for '%s' command: %s", show_command, str(parsed_output))
         if not parsed_output:
             mod_log.error("Failed to recognise software version.")

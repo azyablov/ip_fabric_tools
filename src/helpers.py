@@ -69,7 +69,7 @@ def apply_template(template: str, cli_output: str, debug: bool = False) -> Union
     return None
 
 
-def load_j2_env(path_to_templ: str = './templates') -> jinja2.Environment:
+def load_j2_env(path_to_templ: str = './j2') -> jinja2.Environment:
     """
     The function is loading j2 env
     :type path_to_templ: str
@@ -106,7 +106,7 @@ def enable_logging(name: str, log_file: str, level=logging.WARNING) -> logging.L
     log: logging.Logger = logging.getLogger(name)
     log.setLevel(level)
     formatter = logging.Formatter(fmt=log_fmt, datefmt=date_fmt, style='{')
-    fh = logging.FileHandler(filename=f"./log/{log_file}", encoding='utf-8')
+    fh = logging.FileHandler(filename=log_file, encoding='utf-8')
     fh.setLevel(level=level)
     fh.setFormatter(formatter)
     log.addHandler(fh)
