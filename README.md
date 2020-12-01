@@ -12,8 +12,30 @@ The aim is to have simple set of utilities for rapid DC fabric healh checking
 * LLDP neighbours information check per Network interface
 
 
-## Usage
+## Host preparation
 
+Instruction in this section may be outdated, so please follow official documentation.
+
+Make sure that you have installed docker and docker-compose on the host or follow instuctions below:
+
+Install Docker CE:
+```shell script
+sudo yum -y install docker-ce
+```
+Enable and start Docker:
+```shell script
+sudo systemctl start docker && sudo systemctl enable docker
+```
+In general, you should use regular user to run your docker containers.
+Add `<YOUR_USER>`to the `docker` group:
+```shell script
+sudo usermod -aG docker cloud_user
+```
+Then install docker-compose:
+```shell script
+sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+## App usage
 * Do `got clone https://github.com/azyablov/ip_fabric_tools.git`
 or unpack repo tarball if you are working in isolated environment without an access to Internet.
 
