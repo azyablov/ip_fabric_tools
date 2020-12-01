@@ -26,7 +26,7 @@ or unpack repo tarball if you are working in isolated environment without an acc
 
 * Then create your JSON file with node param in `nodes` diretory in accordance with [sample file](nodes/input_sample.json)
 
-* If you are working in isolated environment, then load your docker image  
+* If you are working in isolated environment, then load your docker image (which you can save by using `docker save` on any docker host): 
 ```shell script
 docker image load --input output/ip_fabric_tools_l3topo.tar.gz
 ```
@@ -42,6 +42,10 @@ docker-compose up
 ```
 
 In `l3topo.log` you can find neccessary to troubleshoot.
+To change log level you should specify CLI argument`--log <YOUR_LOG_LEVEL>` in docker compose file:
+```yaml
+command: ["-n", "nodes.json", "--log", "debug", "-r", "reports"]
+```
 Reports for fabric switches pushed into `reports` directory.
 
 ## Input JSON file format 
