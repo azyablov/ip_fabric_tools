@@ -12,10 +12,10 @@ import json
 log_levels = ['DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL']
 # TODO: extract vars from ENV variables
 # Default application path
-LOG_PATH = "../log/"
-J2_PATH = "../j2/"
-REPORTS_PATH = "../reports/"
-NODE_DATA = "../nodes/"
+LOG_PATH = "log"
+J2_PATH = "j2"
+REPORTS_PATH = "reports"
+NODE_DATA_PATH = "nodes"
 
 def ip_fabric_l3topo(sros_node: sroslib.SROSNode, logger: logging.Logger) -> str:
     # Software version check
@@ -38,7 +38,7 @@ def ip_fabric_l3topo(sros_node: sroslib.SROSNode, logger: logging.Logger) -> str
     st_inf_state = df_inf_state.style.applymap(color_up_down)
 
     # Template handling
-    env = load_j2_env(path_to_templ=J2_PATH)
+    env = load_j2_env(path_to_templ=f"./{J2_PATH}/")
     # TODO: l2 templates directory to be taken from params ???
     template = env.get_template('l3topo.html')
     logger.info(f"Rendering report for {sros_node.name} ....")
@@ -71,9 +71,9 @@ def main() -> int:
         user_report_directory = REPORTS_PATH
     # TODO: extend with capability to load several configuration params data files
     # Loading node attributes
-    node_data = load_json_data(f"{NODE_DATA}{args.n}")
+    node_data = load_json_data(f"{NODE_DATA_PATH}/{args.n}")
 
-    logger = enable_logging(name="l3topo", log_file=f"{LOG_PATH}l3topo.log", level=user_level)
+    logger = enable_logging(name="l3topo", log_file=f"{LOG_PATH}/l3topo.log", level=user_level)
     logger.info(f"Logging level: {user_level}")
     logger.info(f"Directory for reporting: {user_report_directory}")
     logger.debug("%s", "=" * 20 + " Node connectivity data " + "=" * 20)
@@ -131,7 +131,7 @@ def main() -> int:
     st_ping = df_ping.style.applymap(color_up_down)
 
     # Template handling
-    env = load_j2_env(path_to_templ=J2_PATH)
+    env = load_j2_env(path_to_templ=f"./{J2_PATH}/")
     # TODO: l2 templates directory to be taken from params
     template = env.get_template('node_availability.html')
     logger.info(f"Rendering report for nodes availability ....")

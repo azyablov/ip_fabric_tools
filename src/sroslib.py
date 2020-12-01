@@ -23,7 +23,7 @@ SHOW_VER = r'show version'
 SHOW_SYS_LLDP = r'show system lldp neighbor'
 SHOW_SYS_NTP_SRV = r'show system ntp servers'
 # Default application path for templates
-TFSM_PATH = "../tfsm/"
+TFSM_PATH = "tfsm"
 
 # Module logger
 mod_log = logging.getLogger("l3topo.sroslib")
@@ -219,7 +219,7 @@ class SROSNode:
         inf_res = output[0][1]
         # Apply textfsm template.
         # TODO: extract TFSM_PATH from ENV variables or use default one
-        parsed_output = apply_template(f"{TFSM_PATH}{show_command.replace(' ', '_')}.tfsm", inf_res, False)
+        parsed_output = apply_template(f"{TFSM_PATH}/{show_command.replace(' ', '_')}.tfsm", inf_res, False)
         mod_log.debug("Parsed output  for '%s' command: %s", show_command, str(parsed_output))
         if not parsed_output:
             mod_log.error("Failed to recognise software version.")
