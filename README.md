@@ -36,7 +36,7 @@ Then install docker-compose:
 sudo curl -L "https://github.com/docker/compose/releases/download/1.23.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 ```
 ## App usage
-* Do `got clone https://github.com/azyablov/ip_fabric_tools.git`
+* Do `git clone https://github.com/azyablov/ip_fabric_tools.git`
 or unpack repo tarball if you are working in isolated environment without an access to Internet.
 
 * Go to the root rectory of cloned repo `cd ip_fabric_tools`
