@@ -8,7 +8,7 @@ services:
         - NODE_DATA_PATH=nodes
         - REPORTS_PATH=reports
         - LOG_PATH=log
-    command: ["-n", "nodes.json", "--log", "debug", "-r", "../reports"]
+    command: ["-n", "nodes.json", "--log", "debug", "-r", "reports"]
     container_name: ipft_l3topo
     environment:
       - PYTHONPATH=./code

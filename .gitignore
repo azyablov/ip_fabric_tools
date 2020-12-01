@@ -7,3 +7,4 @@ src/__pycache__/
 /.idea/
 /nodes/input.json
 /nodes/input.json.back
+/output/
