@@ -138,7 +138,7 @@ def main() -> int:
     # Rendering
     html = template.render(ping_table=st_ping.render())
     # Write the HTML file
-    with open(f'{user_report_directory}/node_availability.html', mode='w') as fh:
+    with open(f'./{user_report_directory}/node_availability.html', mode='w') as fh:
         fh.write(html)
 
     # Processing nodes one by one and generating report for each
@@ -146,7 +146,7 @@ def main() -> int:
 
         html = ip_fabric_l3topo(sros_node_obj[node], logger)
         # Write the HTML file
-        with open(f'{user_report_directory}/{node}.html', mode='w') as fh:
+        with open(f'./{user_report_directory}/{node}.html', mode='w') as fh:
             fh.write(html)
     return 0
 
