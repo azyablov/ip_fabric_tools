@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+  l3topo:
+    build:
+      context: .
+# Now use default args
+      args:
+        - NODE_DATA_PATH=nodes
+        - REPORTS_PATH=reports
+        - LOG_PATH=log
+    command: ["-n", "nodes.json", "--log", "debug", "-r", "../reports"]
+    container_name: ipft_l3topo
+    environment:
+      - PYTHONPATH=./code
+#      - NODE_DATA_PATH=nodes
+#      - REPORTS_PATH=reports
+#      - J2_PATH=j2
+#      - LOG_PATH=log
+#      - TFSM_PATH=tfsm
+    volumes:
+      - type: bind
+        source: /home/ipft/ip_fabric_tools/nodes
+        target: /home/ipft/nodes
+        read_only: "yes"
+      - type: bind
+        source: /home/ipft/ip_fabric_tools/reports
+        target: /home/ipft/reports
+      - type: bind
+        source: /home/ipft/ip_fabric_tools/log
+        target: /home/ipft/log
+ 
