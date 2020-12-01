@@ -1,6 +1,7 @@
 version: "3.7"
 services:
   l3topo:
+    image: azyablov/ip_fabric_tools_l3topo:latest
     build:
       context: .
 # Now use default args
